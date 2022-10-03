@@ -24,6 +24,10 @@ class WordpressApi
 	 */
 	public function setAuthBasicToken(string $token): void
 	{
+		if ($token === '') {
+			throw new RuntimeException('Invalid token provided.');
+		}
+
 		$this->basicAuthToken = $token;
 		$this->authType = self::AUTH_TYPE_BASIC;
 	}
@@ -37,6 +41,14 @@ class WordpressApi
 	 */
 	public function setAuthUserPass(string $username, string $password): void
 	{
+		if ($username === '') {
+			throw new RuntimeException('Invalid username provided.');
+		}
+
+		if ($password === '') {
+			throw new RuntimeException('Invalid password provided.');
+		}
+
 		$this->basicAuthToken = base64_encode($username . ':' . $password);
 		$this->authType = self::AUTH_TYPE_BASIC;
 	}
