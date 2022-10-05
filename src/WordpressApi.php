@@ -59,11 +59,12 @@ class WordpressApi
 	 * @param string $type
 	 * @param string $request
 	 * @param array $args
+	 * @param string|null $body
+	 * @param array|null $headers
 	 * @return mixed
-	 * @throws RuntimeException
 	 * @throws \JsonException
 	 */
-	public function request(string $type, string $request, array $args = [])
+	public function request(string $type, string $request, array $args = [], ?string $body = null, ?array $headers = [])
 	{
 		if (!$this->authType) {
 			throw new RuntimeException('Auth type not set, request could not be sent.');
@@ -71,6 +72,14 @@ class WordpressApi
 
 		if (!is_array($args)) {
 			$args = [$args];
+		}
+
+		if ($headers === null) {
+			$headers = [];
+		}
+
+		if ($this->authType === self::AUTH_TYPE_BASIC) {
+			$headers[] = 'Authorization: Basic ' . $this->basicAuthToken;
 		}
 
 		$url = $this->apiUrl . $request;
@@ -84,16 +93,12 @@ class WordpressApi
 		curl_setopt($c, CURLOPT_VERBOSE, 0);
 		curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($c, CURLOPT_SSL_VERIFYPEER, 1);
-
-		if ($this->authType === self::AUTH_TYPE_BASIC) {
-			curl_setopt($c, CURLOPT_HTTPHEADER, [
-				'Authorization: Basic ' . $this->basicAuthToken,
-			]);
-		}
-
+		curl_setopt($c, CURLOPT_HTTPHEADER, $headers);
 		curl_setopt($c, CURLOPT_URL, $url);
 
-		if (($type !== 'GET') && (count($args))) {
+		if ($body) {
+			curl_setopt($c, CURLOPT_POSTFIELDS, $body);
+		} elseif (($type !== 'GET') && (count($args))) {
 			curl_setopt($c, CURLOPT_POSTFIELDS, http_build_query($args));
 		}
 
@@ -111,7 +116,6 @@ class WordpressApi
 		$response = curl_exec($c);
 		curl_close($c);
 
-		// DECODE THE RESPONSE INTO A GENERIC OBJECT
 		return json_decode($response, true, 512, JSON_THROW_ON_ERROR);
 	}
 }

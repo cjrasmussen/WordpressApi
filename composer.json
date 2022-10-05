@@ -1,7 +1,7 @@
 {
   "name": "cjrasmussen/wordpress-api",
   "description": "Simple helper for interacting with the WordPress REST API",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": ["WordPress", "API"],
   "homepage": "https://www.clarkrasmussen.com",
   "license": "MIT",
