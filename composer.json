@@ -3,12 +3,12 @@
   "description": "Simple helper for interacting with the WordPress REST API",
   "version": "1.0.2",
   "keywords": ["WordPress", "API"],
-  "homepage": "https://www.clarkrasmussen.com",
+  "homepage": "https://cjr.dev",
   "license": "MIT",
   "authors": [
     {
       "name": "Clark Rasmussen",
-      "homepage": "https://www.clarkrasmussen.com",
+      "homepage": "https://cjr.dev",
       "role": "Developer"
     }
   ],
