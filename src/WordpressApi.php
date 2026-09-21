@@ -1,11 +1,13 @@
 <?php
+
 namespace cjrasmussen\WordpressApi;
 
+use JsonException;
 use RuntimeException;
 
 class WordpressApi
 {
-	private const AUTH_TYPE_BASIC = 1;
+	private const int AUTH_TYPE_BASIC = 1;
 
 	private int $authType;
 	private string $basicAuthToken;
@@ -62,9 +64,9 @@ class WordpressApi
 	 * @param string|null $body
 	 * @param array|null $headers
 	 * @return mixed
-	 * @throws \JsonException
+	 * @throws JsonException
 	 */
-	public function request(string $type, string $request, array $args = [], ?string $body = null, ?array $headers = [])
+	public function request(string $type, string $request, array $args = [], ?string $body = null, ?array $headers = []): mixed
 	{
 		if (!$this->authType) {
 			throw new RuntimeException('Auth type not set, request could not be sent.');
@@ -116,7 +118,6 @@ class WordpressApi
 		}
 
 		$response = curl_exec($c);
-		curl_close($c);
 
 		return json_decode($response, true, 512, JSON_THROW_ON_ERROR);
 	}

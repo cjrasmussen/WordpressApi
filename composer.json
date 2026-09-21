@@ -1,7 +1,7 @@
 {
   "name": "cjrasmussen/wordpress-api",
   "description": "Simple helper for interacting with the WordPress REST API",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "keywords": ["WordPress", "API"],
   "homepage": "https://cjr.dev",
   "license": "MIT",
@@ -17,7 +17,7 @@
     "source": "https://github.com/cjrasmussen/WordpressApi"
   },
   "require": {
-    "php": ">=7.4.0",
+    "php": ">=8.5.0",
     "ext-curl": "*",
     "ext-json": "*"
   },
